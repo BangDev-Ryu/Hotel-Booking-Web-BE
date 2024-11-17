@@ -9,21 +9,15 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "room")
+@Table(name = "loai_phong")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Room {
+public class LoaiPhong {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "id_khu", referencedColumnName = "id")
-    private Khu khu;
-    private int soPhong;
-    private double dienTich;
-    private String roomType;
-    private String khuyenMai;
-    private String status;
+    private String name;
+    private BigDecimal price;
 }
