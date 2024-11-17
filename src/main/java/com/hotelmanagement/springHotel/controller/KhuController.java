@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/khu")
+@CrossOrigin
 public class KhuController {
     
     @Autowired
