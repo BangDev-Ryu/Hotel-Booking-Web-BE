@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Entity
 @Table(name = "room")
 @Setter
@@ -18,12 +16,17 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "id_khu", referencedColumnName = "id")
     private Khu khu;
-    private int soPhong;
-    private double dienTich;
-    private String roomType;
-    private String khuyenMai;
+
+    private String name;
+    private int dienTich;
+
+    @ManyToOne
+    @JoinColumn(name = "id_loai_phong", referencedColumnName = "id")
+    private LoaiPhong loaiPhong;
+
     private String status;
 }

@@ -1,8 +1,10 @@
 package com.hotelmanagement.springHotel.repository;
 
 import com.hotelmanagement.springHotel.model.Khu;
+import com.hotelmanagement.springHotel.model.LoaiPhong;
 import com.hotelmanagement.springHotel.model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,10 +15,10 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findByKhu(Khu khu);
     
     // Tìm phòng theo số phòng
-    Room findBySoPhong(int soPhong);
+    Room findByName(String name);
     
     // Tìm phòng theo loại phòng
-    List<Room> findByRoomType(String roomType);
+    List<Room> findByLoaiPhong(LoaiPhong loaiPhong);
     
     // Tìm phòng theo trạng thái
     List<Room> findByStatus(String status);
@@ -25,5 +27,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findByKhuAndStatus(Khu khu, String status);
     
     // Tìm phòng có diện tích lớn hơn giá trị cho trước
-    List<Room> findByDienTichGreaterThan(double dienTich);
+    List<Room> findByDienTichGreaterThan(int dienTich);
+
+    @Query("SELECT r FROM Room r WHERE r.dienTich BETWEEN :minDienTich AND :maxDienTich")
+    List<Room> findByDienTichBetween(double minDienTich, double maxDienTich);
 }
