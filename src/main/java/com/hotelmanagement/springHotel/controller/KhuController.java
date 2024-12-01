@@ -49,11 +49,11 @@ public class KhuController {
 
     // Xóa khu
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteKhu(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteKhu(@PathVariable Long id) {
         return khuService.getKhuById(id)
                 .map(khu -> {
                     khuService.deleteKhu(id);
-                    return ResponseEntity.ok().<Void>build();
+                    return ResponseEntity.ok().build();
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

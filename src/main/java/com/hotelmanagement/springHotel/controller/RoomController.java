@@ -49,11 +49,11 @@ public class RoomController {
 
     // Xóa phòng
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteRoom(@PathVariable Long id) {
         return roomService.getRoomById(id)
                 .map(room -> {
                     roomService.deleteRoom(id);
-                    return ResponseEntity.ok().<Void>build();
+                    return ResponseEntity.ok().build();
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

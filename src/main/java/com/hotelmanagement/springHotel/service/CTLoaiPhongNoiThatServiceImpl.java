@@ -34,11 +34,6 @@ public class CTLoaiPhongNoiThatServiceImpl implements CTLoaiPhongNoiThatService 
         // Xóa các NoiThat cũ
         ctLoaiPhongNoiThatRepository.deleteByLoaiPhongId(loaiPhongId);
 
-//        for (CTLoaiPhongNoiThat ctLoaiPhongNoiThat : ctLoaiPhongNoiThatRepository.findAll()) {
-//            if (ctLoaiPhongNoiThat.getLoaiPhong().getId().equals(loaiPhongId)) {
-//                ctLoaiPhongNoiThatRepository.delete(ctLoaiPhongNoiThat);
-//            }
-//        }
 
         // Thêm NoiThat mới
         for (Long noiThatId : noiThatIds) {

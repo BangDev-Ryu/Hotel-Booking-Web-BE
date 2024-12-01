@@ -34,11 +34,6 @@ public class CTLoaiPhongTienNghiServiceImpl implements CTLoaiPhongTienNghiServic
 
         // Xóa các TienNghi cũ
         ctLoaiPhongTienNghiRepository.deleteByLoaiPhongId(loaiPhongId);
-//        for (CTLoaiPhongTienNghi ctLoaiPhongTienNghi : ctLoaiPhongTienNghiRepository.findAll()) {
-//            if (ctLoaiPhongTienNghi.getLoaiPhong().getId().equals(loaiPhongId)) {
-//                ctLoaiPhongTienNghiRepository.delete(ctLoaiPhongTienNghi);
-//            }
-//        }
 
         // Thêm TienNghi mới
         for (Long tienNghiId : tienNghiIds) {

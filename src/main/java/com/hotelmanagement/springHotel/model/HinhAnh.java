@@ -6,23 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "loai_phong")
+@Table(name = "hinh_anh")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoaiPhong {
+public class HinhAnh {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private BigDecimal price;
-
-    @OneToMany(mappedBy = "loaiPhong", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HinhAnh> hinhAnhs = new ArrayList<>();
+    
+    @Column(columnDefinition = "TEXT")
+    private String base64Data;
+    
+    @ManyToOne
+    @JoinColumn(name = "loai_phong_id")
+    private LoaiPhong loaiPhong;
 }
