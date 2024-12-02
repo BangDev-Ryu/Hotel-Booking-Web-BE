@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -101,5 +102,22 @@ public class LoaiPhongController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<Map<String, Object>> getLoaiPhongDetails(@PathVariable Long id) {
+        Optional<LoaiPhong> loaiPhongOpt = loaiPhongService.getLoaiPhongById(id);
+        if (!loaiPhongOpt.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        LoaiPhong loaiPhong = loaiPhongOpt.get();
+        List<HinhAnh> images = hinhAnhRepository.findByLoaiPhongId(id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("loaiPhong", loaiPhong);
+        response.put("images", images);
+
+        return ResponseEntity.ok(response);
     }
 } 
