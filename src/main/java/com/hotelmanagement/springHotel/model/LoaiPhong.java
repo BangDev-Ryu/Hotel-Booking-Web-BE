@@ -22,7 +22,4 @@ public class LoaiPhong {
     private Long id;
     private String name;
     private BigDecimal price;
-
-    @OneToMany(mappedBy = "loaiPhong", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HinhAnh> hinhAnhs = new ArrayList<>();
 }

@@ -17,10 +17,9 @@ public class HinhAnh {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "longtext")
     private String base64Data;
     
-    @ManyToOne
-    @JoinColumn(name = "loai_phong_id")
-    private LoaiPhong loaiPhong;
+    @Column(name = "loai_phong_id")
+    private Long loaiPhongId;
 }

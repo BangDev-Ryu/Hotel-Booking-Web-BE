@@ -5,6 +5,7 @@ import com.hotelmanagement.springHotel.model.LoaiPhong;
 import com.hotelmanagement.springHotel.repository.HinhAnhRepository;
 import com.hotelmanagement.springHotel.service.LoaiPhongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,29 +69,28 @@ public class LoaiPhongController {
     @PostMapping("/{id}/hinh-anh")
     public ResponseEntity<HinhAnh> addHinhAnh(@PathVariable Long id, @RequestBody Map<String, String> request) {
         try {
-            // Lấy dữ liệu base64 từ request
-            String base64Data = request.get("base64Data");
-            if (base64Data == null) {
-                return ResponseEntity.badRequest().build();
-            }
-
-            // Tìm loại phòng theo id
-            Optional<LoaiPhong> loaiPhongOpt = loaiPhongService.getLoaiPhongById(id);
-            if (!loaiPhongOpt.isPresent()) {
+            // Kiểm tra loại phòng tồn tại
+            if (!loaiPhongService.getLoaiPhongById(id).isPresent()) {
                 return ResponseEntity.notFound().build();
             }
 
+            String base64Data = request.get("base64Data");
+            if (base64Data == null || base64Data.isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            
             // Tạo và lưu hình ảnh mới
             HinhAnh hinhAnh = new HinhAnh();
             hinhAnh.setBase64Data(base64Data);
-            hinhAnh.setLoaiPhong(loaiPhongOpt.get());
-            
+            hinhAnh.setLoaiPhongId(id);
+
             HinhAnh savedHinhAnh = hinhAnhRepository.save(hinhAnh);
             return ResponseEntity.ok(savedHinhAnh);
-            
+
         } catch (Exception e) {
+            System.err.println("Error processing request: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
