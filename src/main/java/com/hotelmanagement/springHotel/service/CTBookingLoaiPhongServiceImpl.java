@@ -1,5 +1,6 @@
 package com.hotelmanagement.springHotel.service;
 
+import com.hotelmanagement.springHotel.controller.CTBookingLoaiPhongController;
 import com.hotelmanagement.springHotel.model.Booking;
 import com.hotelmanagement.springHotel.model.CTBookingLoaiPhong;
 import com.hotelmanagement.springHotel.model.LoaiPhong;
@@ -25,20 +26,21 @@ public class CTBookingLoaiPhongServiceImpl implements CTBookingLoaiPhongService 
     private CTBookingLoaiPhongRepository ctBookingLoaiPhongRepository;
 
     @Override
-    public void updateBookingLoaiPhong(Long bookingId, List<Long> loaiPhongIds) {
+    public void updateBookingLoaiPhong(Long bookingId, List<CTBookingLoaiPhongController.BookingRoomRequest> bookingRooms) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy booking"));
 
-        ctBookingLoaiPhongRepository.deleteByBookingId(bookingId);
+        for (CTBookingLoaiPhongController.BookingRoomRequest request : bookingRooms) {
+            LoaiPhong loaiPhong = loaiPhongRepository.findById(request.getLoaiPhongId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy loại phòng"));
 
-        for (Long loaiPhongId : loaiPhongIds) {
-            LoaiPhong loaiPhong = loaiPhongRepository.findById(loaiPhongId)
-                    .orElseThrow(() -> new RuntimeException("LoaiPhong not found"));
+            CTBookingLoaiPhong ctBooking = new CTBookingLoaiPhong();
+            ctBooking.setBooking(booking);
+            ctBooking.setLoaiPhong(loaiPhong);
+            ctBooking.setRoomQuantity(request.getSoLuong());
+            ctBooking.setPrice(loaiPhong.getPrice());
 
-            CTBookingLoaiPhong ctBookingLoaiPhong = new CTBookingLoaiPhong();
-            ctBookingLoaiPhong.setBooking(booking);
-            ctBookingLoaiPhong.setLoaiPhong(loaiPhong);
-            ctBookingLoaiPhongRepository.save(ctBookingLoaiPhong);
+            ctBookingLoaiPhongRepository.save(ctBooking);
         }
     }
 
