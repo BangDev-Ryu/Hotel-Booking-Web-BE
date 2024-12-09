@@ -30,6 +30,8 @@ public class CTBookingLoaiPhongServiceImpl implements CTBookingLoaiPhongService 
         Booking booking = bookingRepository.findById(bookingId)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy booking"));
 
+        ctBookingLoaiPhongRepository.deleteByBookingId(bookingId);
+
         for (CTBookingLoaiPhongController.BookingRoomRequest request : bookingRooms) {
             LoaiPhong loaiPhong = loaiPhongRepository.findById(request.getLoaiPhongId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy loại phòng"));
@@ -45,10 +47,7 @@ public class CTBookingLoaiPhongServiceImpl implements CTBookingLoaiPhongService 
     }
 
     @Override
-    public List<LoaiPhong> getLoaiPhongByBooking(Long bookingId) {
-        return ctBookingLoaiPhongRepository.findAll().stream()
-                .filter(ct -> ct.getLoaiPhong().getId().equals(bookingId))
-                .map(CTBookingLoaiPhong::getLoaiPhong)
-                .collect(Collectors.toList());
+    public List<CTBookingLoaiPhong> getCTLoaiPhongByBooking(Long bookingId) {
+        return ctBookingLoaiPhongRepository.findByBookingId(bookingId);
     }
 }

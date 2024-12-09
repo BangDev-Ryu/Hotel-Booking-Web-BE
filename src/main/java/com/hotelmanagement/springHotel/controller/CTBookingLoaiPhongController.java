@@ -1,5 +1,6 @@
 package com.hotelmanagement.springHotel.controller;
 
+import com.hotelmanagement.springHotel.model.CTBookingLoaiPhong;
 import com.hotelmanagement.springHotel.model.LoaiPhong;
 import com.hotelmanagement.springHotel.service.CTBookingLoaiPhongService;
 import lombok.Getter;
@@ -31,8 +32,8 @@ public class CTBookingLoaiPhongController {
     }
 
     @GetMapping("/{bookingId}/loai-phong")
-    public ResponseEntity<List<LoaiPhong>> getLoaiPhongByBooking(@PathVariable Long bookingId) {
-        List<LoaiPhong> loaiPhongs = ctBookingLoaiPhongService.getLoaiPhongByBooking(bookingId);
+    public ResponseEntity<List<CTBookingLoaiPhong>> getLoaiPhongByBooking(@PathVariable Long bookingId) {
+        List<CTBookingLoaiPhong> loaiPhongs = ctBookingLoaiPhongService.getCTLoaiPhongByBooking(bookingId);
         return ResponseEntity.ok(loaiPhongs);
     }
 
