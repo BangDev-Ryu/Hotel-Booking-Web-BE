@@ -9,23 +9,23 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "ct_booking_loai_phong")
+@Table(name = "ct_hoa_don")
 @Setter
 @Getter
-@IdClass(CTBookingLoaiPhongId.class)
+@IdClass(CTHoaDonId.class)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CTBookingLoaiPhong {
+public class CTHoaDon {
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_booking", referencedColumnName = "id_booking")
-    private Booking booking;
+    @JoinColumn(name = "id_hoa_don", referencedColumnName = "id")
+    private HoaDon hoaDon;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_loai_phong", referencedColumnName = "id")
-    private LoaiPhong loaiPhong;
+    @JoinColumn(name = "id_dich_vu", referencedColumnName = "id")
+    private DichVu dichVu;
 
-    private int roomQuantity;
+    private int quantity;
     private BigDecimal price;
 }

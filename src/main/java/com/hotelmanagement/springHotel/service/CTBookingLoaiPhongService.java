@@ -2,7 +2,6 @@ package com.hotelmanagement.springHotel.service;
 
 import com.hotelmanagement.springHotel.controller.CTBookingLoaiPhongController;
 import com.hotelmanagement.springHotel.model.CTBookingLoaiPhong;
-import com.hotelmanagement.springHotel.model.LoaiPhong;
 
 import java.util.List;
 
