@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/account")
@@ -38,8 +39,10 @@ public class AccountController {
     public ResponseEntity<Account> updateAccount(@PathVariable Long id, @RequestBody Account account) {
         return accountService.getAccountById(id)
                 .map(existingAccount -> {
-                    account.setId(id);
-                    return ResponseEntity.ok(accountService.saveAccount(account));
+                    existingAccount.setEmail(account.getEmail());
+                    existingAccount.setUsername(account.getUsername());
+                    existingAccount.setSdt(account.getSdt());
+                    return ResponseEntity.ok(accountService.saveAccount(existingAccount));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -72,6 +75,28 @@ public class AccountController {
         registerRequest.setQuyen("USER"); // Mặc định quyền là USER
         Account savedAccount = accountService.saveAccount(registerRequest);
         return ResponseEntity.ok(savedAccount);
+    }
+
+    @PutMapping("/{id}/change-password")
+    public ResponseEntity<?> changePassword(
+        @PathVariable Long id,
+        @RequestBody Map<String, String> passwordData
+    ) {
+        return accountService.getAccountById(id)
+            .map(account -> {
+                String currentPassword = passwordData.get("currentPassword");
+                String newPassword = passwordData.get("newPassword");
+
+                if (!account.getPassword().equals(currentPassword)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Mật khẩu hiện tại không đúng");
+                }
+
+                account.setPassword(newPassword);
+                Account updatedAccount = accountService.saveAccount(account);
+                return ResponseEntity.ok(updatedAccount);
+            })
+            .orElse(ResponseEntity.notFound().build());
     }
 
 }
